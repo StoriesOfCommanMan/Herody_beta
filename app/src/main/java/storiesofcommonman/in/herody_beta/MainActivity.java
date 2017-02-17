@@ -11,6 +11,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //In this activity , first check whether GPS is enabled or not and internet Connection is enabled or not
+        //Do your work in seperate method
 
 
 
