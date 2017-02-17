@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean checkWifiNetwork()
     {
 
+
         WifiManager wifi = (WifiManager)getSystemService(Context.WIFI_SERVICE);
 
         ConnectivityManager connectivityManager
