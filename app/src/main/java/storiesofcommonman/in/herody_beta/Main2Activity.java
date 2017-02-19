@@ -62,8 +62,6 @@ public class Main2Activity extends AppCompatActivity
     private static final LatLngBounds BOUNDS_INDIA = new LatLngBounds(new LatLng(23.63936, 68.14712), new LatLng(28.20453, 97.34466));
     private LatLng pickup,drop;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,17 +91,12 @@ public class Main2Activity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if(navigationView!=null)        navigationView.setNavigationItemSelectedListener(this);
-
-
-
-
         framelayout2=(FrameLayout)findViewById(R.id.frameLayout2);
         if(framelayout2!=null)framelayout2.setVisibility(View.GONE);
 
         onMapClickListener= new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-
             }
         };
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -117,7 +110,6 @@ public class Main2Activity extends AppCompatActivity
                 drop = place.getLatLng();
                 dropAddress = place.getAddress().toString();
             }
-
             @Override
             public void onError(Status status) {
 
@@ -129,7 +121,6 @@ public class Main2Activity extends AppCompatActivity
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-
                 pickupAddress = place.getAddress().toString();
                 pickup = new LatLng(place.getLatLng().latitude, place.getLatLng().longitude);
                 changeMarker(pickup.latitude, pickup.longitude);
@@ -152,10 +143,9 @@ public class Main2Activity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        if(mGoogleApiClient!=null)
+        if(mGoogleApiClient!=null&&mGoogleApiClient.isConnected())
         {
-                Toast.makeText(getApplicationContext(),"s",Toast.LENGTH_SHORT).show();
-                mGoogleApiClient.connect();startLocationUpdates();
+            startLocationUpdates();
         }
     }
 
