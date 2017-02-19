@@ -18,6 +18,10 @@
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
         android:background="#ffffffff"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+
+        android:layout_marginBottom="8dp"
         android:id="@+id/frameLayout">
 
 
@@ -43,6 +47,8 @@
         android:id="@+id/frameLayout2"
         android:animateLayoutChanges="true"
         android:paddingTop="-0.2dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:background="#ffffffff"
         android:layout_below="@+id/frameLayout"
         android:layout_alignParentLeft="true"
