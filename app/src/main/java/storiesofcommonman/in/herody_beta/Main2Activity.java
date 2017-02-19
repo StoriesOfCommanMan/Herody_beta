@@ -73,29 +73,34 @@ public class Main2Activity extends AppCompatActivity
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setVisibility(View.GONE);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        if(fab!=null) {
+            fab.setVisibility(View.GONE);
+
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+
+        if(drawer!=null)                drawer.addDrawerListener(toggle);
 
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        if(navigationView!=null)        navigationView.setNavigationItemSelectedListener(this);
 
 
 
 
-        framelayout2=(FrameLayout)findViewById(R.id.frameLayout2);framelayout2.setVisibility(View.GONE);
+        framelayout2=(FrameLayout)findViewById(R.id.frameLayout2);
+        if(framelayout2!=null)framelayout2.setVisibility(View.GONE);
 
         onMapClickListener= new GoogleMap.OnMapClickListener() {
             @Override
@@ -162,10 +167,12 @@ public class Main2Activity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+        if(drawer!=null) {
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START);
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 
@@ -211,8 +218,9 @@ public class Main2Activity extends AppCompatActivity
 
         }
 
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        if(drawer!=null)        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
     @Override
@@ -364,7 +372,7 @@ public class Main2Activity extends AppCompatActivity
             public void onConnected(Bundle bundle) {
 
                 Location location1=null;Location location=null;
-                Toast.makeText(getApplicationContext(),"s",Toast.LENGTH_SHORT).show();
+
                 try {
 
 
@@ -517,7 +525,7 @@ public class Main2Activity extends AppCompatActivity
     @Override
     protected void onPause()
     {
-        super.onPause();;
+        super.onPause();
         if(mGoogleApiClient!=null)
         LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,this);
     }
