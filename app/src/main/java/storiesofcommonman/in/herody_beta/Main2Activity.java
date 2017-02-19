@@ -70,8 +70,6 @@ public class Main2Activity extends AppCompatActivity
         setContentView(R.layout.activity_main2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if(fab!=null) {
             fab.setVisibility(View.GONE);
@@ -136,6 +134,7 @@ public class Main2Activity extends AppCompatActivity
                 pickup = new LatLng(place.getLatLng().latitude, place.getLatLng().longitude);
                 changeMarker(pickup.latitude, pickup.longitude);
                 framelayout2.setVisibility(View.VISIBLE);
+                stopLocationUpdates();
 
 
             }
@@ -155,8 +154,8 @@ public class Main2Activity extends AppCompatActivity
         super.onResume();
         if(mGoogleApiClient!=null)
         {
-            if(!mGoogleApiClient.isConnected())
-            mGoogleApiClient.connect();
+                Toast.makeText(getApplicationContext(),"s",Toast.LENGTH_SHORT).show();
+                mGoogleApiClient.connect();startLocationUpdates();
         }
     }
 
@@ -380,8 +379,6 @@ public class Main2Activity extends AppCompatActivity
                     {
                         startLocationUpdates();
                         final LocationManager locationManager=(LocationManager)getSystemService(Context.LOCATION_SERVICE);
-
-
                         Location locationg=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                         Location locationn=locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
@@ -462,7 +459,7 @@ public class Main2Activity extends AppCompatActivity
     }}
     protected LocationRequest createLocationRequest() {
         LocationRequest lrequest = new LocationRequest();
-        lrequest.setInterval(1000000);
+        lrequest.setInterval(0);
         lrequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         return lrequest;
     }
@@ -526,7 +523,12 @@ public class Main2Activity extends AppCompatActivity
     protected void onPause()
     {
         super.onPause();
+        stopLocationUpdates();
+
+    }
+    private void stopLocationUpdates()
+    {
         if(mGoogleApiClient!=null)
-        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,this);
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,this);
     }
     }
