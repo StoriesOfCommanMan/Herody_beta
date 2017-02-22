@@ -47,8 +47,10 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
 public class Main2Activity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback,LocationListener,placeAddress {
+        implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback,LocationListener,placeAddress,placeUber {
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation=null;
@@ -109,6 +111,8 @@ public class Main2Activity extends AppCompatActivity
             public void onPlaceSelected(Place place) {
                 drop = place.getLatLng();
                 dropAddress = place.getAddress().toString();
+                getUber();
+
             }
             @Override
             public void onError(Status status) {
@@ -521,4 +525,16 @@ public class Main2Activity extends AppCompatActivity
         if(mGoogleApiClient!=null)
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,this);
     }
+    @Override
+    public void Uberplaced(List<String> categories, String data, boolean isUber) {
+        uberDetails u=Uber.getUberDetails(data,"uberGo");
+
+        String x=u.getCategory()+" "+u.getEta()+" "+u.getMaxAmount()+" "+u.getMinAmount()+" "+u.getDistance()+u.getTravelTime();
+        Toast.makeText(getApplicationContext(),x,Toast.LENGTH_SHORT).show();
     }
+    private void getUber()
+    {
+        Uber uber=new Uber(getApplicationContext(),this);
+        uber.getUberEstimate(getSupportLoaderManager(),Uber.getUberUrl(pickup,drop));
+    }
+}
