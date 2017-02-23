@@ -50,7 +50,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.List;
 
 public class Main2Activity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback,LocationListener,placeAddress,placeUber {
+        implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback,LocationListener,placeAddress,placeUber,placeOla {
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation=null;
@@ -529,12 +529,25 @@ public class Main2Activity extends AppCompatActivity
     public void Uberplaced(List<String> categories, String data, boolean isUber) {
         uberDetails u=Uber.getUberDetails(data,"uberGo");
 
-        String x=u.getCategory()+" "+u.getEta()+" "+u.getMaxAmount()+" "+u.getMinAmount()+" "+u.getDistance()+u.getTravelTime();
+        String x=u.getCategory()+" "+u.getEta()+" "+u.getMaxAmount()+" "+u.getMinAmount()+" "+u.getDistance()+u.getTravelTime()+" UBER";
         Toast.makeText(getApplicationContext(),x,Toast.LENGTH_SHORT).show();
     }
     private void getUber()
     {
         Uber uber=new Uber(getApplicationContext(),this);
-        uber.getUberEstimate(getSupportLoaderManager(),Uber.getUberUrl(pickup,drop));
+        uber.getUberEstimate(getSupportLoaderManager(), Uber.getUberUrl(pickup, drop));
+        getOla();
+    }
+    private void getOla()
+    {
+        Ola ola=new Ola(getApplicationContext(),this);
+        ola.getOlaEstimate(getSupportLoaderManager(),Ola.OlaEstimate(pickup,drop));
+    }
+
+    @Override
+    public void Olaplaced(List<String> categories, String data, boolean isOla) {
+        OlaDetails o=Ola.getDetails(data,"mini");
+        String x=o.getCategory()+" "+o.getEta()+" "+o.getMaxAmount()+" "+o.getMinAmount()+" "+o.getDistance()+o.getTravelTime()+" OLA";
+        Toast.makeText(getApplicationContext(),x,Toast.LENGTH_SHORT).show();
     }
 }
