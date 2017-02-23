@@ -4,7 +4,7 @@ package storiesofcommonman.in.herody_beta;
  * Created by WIN on 2/22/2017.
  */
 public class uberDetails {
-    public int eta=0;
+    public String eta="0";
 
     public String getCurrency() {
         return Currency;
@@ -62,11 +62,11 @@ public class uberDetails {
     public String maxAmount="--";
 
 
-    public int getEta() {
+    public String getEta() {
         return eta;
     }
 
-    public void setEta(int eta) {
+    public void setEta(String eta) {
         this.eta = eta;
     }
 }
