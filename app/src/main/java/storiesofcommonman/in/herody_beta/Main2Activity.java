@@ -14,21 +14,24 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Status;
@@ -63,6 +66,8 @@ public class Main2Activity extends AppCompatActivity
     String pickupAddress="",dropAddress="";
     private static final LatLngBounds BOUNDS_INDIA = new LatLngBounds(new LatLng(23.63936, 68.14712), new LatLng(28.20453, 97.34466));
     private LatLng pickup,drop;
+    private uberDetails u=null;private OlaDetails o=null;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +88,7 @@ public class Main2Activity extends AppCompatActivity
             });
         }
 
+        recyclerView=(RecyclerView)findViewById(R.id.view);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -527,10 +533,11 @@ public class Main2Activity extends AppCompatActivity
     }
     @Override
     public void Uberplaced(List<String> categories, String data, boolean isUber) {
-        uberDetails u=Uber.getUberDetails(data,"uberGo");
+       u=Uber.getUberDetails(data,"uberGo");
 
         String x=u.getCategory()+" "+u.getEta()+" "+u.getMaxAmount()+" "+u.getMinAmount()+" "+u.getDistance()+u.getTravelTime()+" UBER";
         Toast.makeText(getApplicationContext(),x,Toast.LENGTH_SHORT).show();
+        setRecyclerView();
     }
     private void getUber()
     {
@@ -546,8 +553,23 @@ public class Main2Activity extends AppCompatActivity
 
     @Override
     public void Olaplaced(List<String> categories, String data, boolean isOla) {
-        OlaDetails o=Ola.getDetails(data,"mini");
+       o=Ola.getDetails(data,"mini");
         String x=o.getCategory()+" "+o.getEta()+" "+o.getMaxAmount()+" "+o.getMinAmount()+" "+o.getDistance()+o.getTravelTime()+" OLA";
         Toast.makeText(getApplicationContext(),x,Toast.LENGTH_SHORT).show();
+        setRecyclerView();
+
+    }
+    private void setRecyclerView()
+    {
+        if(u!=null && o!=null)
+        {
+            SuggestionAdapter suggestionAdapter=new SuggestionAdapter(3,o,u);
+            LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(linearLayoutManager);
+            recyclerView.setAdapter(suggestionAdapter);
+
+
+        }
+
     }
 }
